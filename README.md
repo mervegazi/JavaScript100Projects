@@ -1,2 +1,2 @@
-# JavaStript100Projects
+# JavaScript100Projects
  
