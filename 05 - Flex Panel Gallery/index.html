@@ -70,7 +70,7 @@
     }
 
     .panel > *:first-child { transform: translateY(-100%);}
-    .panel.open-active > *:first-child { transform: translateY(0);}
+    .panel.open-active > *:first-child { transform: translateY(0);} /* We set the y value of the first text to 0. Since the page is in a grid structure, the text scrolls down when the y value of the box is 0.*/
     .panel > *:last-child { transform: translateY(100%);}
     .panel.open-active > *:last-child { transform: translateY(0);}
 
@@ -90,8 +90,13 @@
       font-size: 40px;
     }
 
-  </style>
+    @media only screen and (max-width: 600px) {
+      .panel p {
+        font-size: 1em;
+      }
+    }
 
+  </style>
 
   <div class="panels">
     <div class="panel panel1">
@@ -122,10 +127,18 @@
   </div>
 
   <script>
+    const panels=document.querySelectorAll('.panel');
 
+    function toggleOpen() {
+      this.classList.toggle('open');      
+    }
+    function toggleActive(e){
+      if(e.propertyName.includes('flex')){
+        this.classList.toggle('open-active');
+      }  
+    }
+    panels.forEach(panel => panel.addEventListener('click', toggleOpen));  
+    panels.forEach(panel => panel.addEventListener('transitionend', toggleActive));     
   </script>
-
-
-
 </body>
 </html>
