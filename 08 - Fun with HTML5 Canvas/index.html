@@ -7,34 +7,54 @@
 <body>
 <canvas id="draw" width="800" height="800"></canvas>
 <script>
-
-  const canvas= document.querySelector('#draw');
-  const ctx=canvas.getContext('2d'); //A necessary method for drawing 2d objects on canvas
-  canvas.width=window.innerWidth;
-  canvas.height=window.innerHeight;
-  ctx.strokeStyle='#BADA55'; //line style
-  ctx.lineJoin='round'; //soft turning corners
-  ctx.lineCap='round';  //Used it to round the start and end of the line.
+  const canvas = document.querySelector('#draw');
+  const ctx = canvas.getContext('2d');                //A necessary method for drawing 2d objects on canvas
+  canvas.width    = window.innerWidth;
+  canvas.height   = window.innerHeight;
+  ctx.strokeStyle = '#BADA55';                      //line style
+  ctx.lineJoin    = 'round';                        //soft turning corners
+  ctx.lineCap     = 'round';                        //Used it to round the start and end of the line.
+  ctx.lineWidth   = 100;
+  //ctx.globalCompositeOperation = 'multiply';
 
   let isDrawing = false;
   let lastX = 0;
   let lastY = 0;
+  let hue   = 0;
+  let direction = true;
 
   function draw(e){
     if(!isDrawing) return;
     console.log(e);
+    ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
     ctx.beginPath(); 
     ctx.moveTo(lastX, lastY); //start from
     ctx.lineTo(e.offsetX, e.offsetY); //go to
     ctx.stroke();
-    [lastX, lastY]=[e.offsetX,e.offsetY]; //The starting point of the drawing must not always be zero.
-  }
-  
-  canvas.addEventListener('mausemove',draw);
-  canvas.addEventListener('mausedown',() => isDrawing=true);
-  canvas.addEventListener('mauseup',() => isDrawing=false);
-  canvas.addEventListener('mauseout',() => isDrawing=false);
-//deneme git
+    [lastX, lastY] = [e.offsetX, e.offsetY]; //The starting point of the drawing must not always be zero. 
+
+    hue++;
+    if (hue >= 360){
+      hue = 0;
+    } 
+    if (ctx.lineWidth >= 100 || ctx.lineWidth <= 1){
+      direction = !direction;
+    }
+    if(direction){
+      ctx.lineWidth++;
+    } else {
+      ctx.lineWidth--;
+    }
+  } 
+
+  canvas.addEventListener('mousedown', (e) => {
+  isDrawing = true;
+  [lastX, lastY] = [e.offsetX, e.offsetY];
+});
+
+canvas.addEventListener('mousemove', draw);
+canvas.addEventListener('mouseup', () => isDrawing = false);
+canvas.addEventListener('mouseout', () => isDrawing = false);
 
 </script>
 
