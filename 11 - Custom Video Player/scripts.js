@@ -20,7 +20,7 @@ function tooglePlay(){
 }
 
 function updateButton() {
-    const icon = this.paused ? '\u23F5' : '\u23F8';
+    const icon = this.paused ? '\u23F5' : '\u23F8'; //these symbols are play and pause and use Unicode for show in js
     toggle.textContent = icon;
     console.log('update the button');
 }
