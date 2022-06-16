@@ -4,8 +4,8 @@ const video = player.querySelector('.viewer');
 const progress = player.querySelector('.progress');
 const progressBar = player.querySelector('.progress__filled');
 const toggle = player.querySelector('.toggle');
-//const skipButtons = player.querySelector('.[data-skip]');
-const ranges = player.querySelector('.player__slider');
+const skipButtons = player.querySelectorAll('[data-skip]');
+const ranges = player.querySelectorAll('.player__slider');
 
 /* Build out functions */
 function tooglePlay(){
@@ -22,11 +22,41 @@ function tooglePlay(){
 function updateButton() {
     const icon = this.paused ? '\u23F5' : '\u23F8'; //these symbols are play and pause and use Unicode for show in js
     toggle.textContent = icon;
-    console.log('update the button');
+}
+
+function skip(){
+    video.currentTime += parseFloat(this.dataset.skip);
+}
+
+function handleRangeUpdate(){
+    video[this.name]=this.value;
+}
+
+function handleProgress() {
+    const percent = (video.currentTime/video.duration) * 100; 
+    progressBar.style.flexBasis = `${percent}%`; 
+}
+
+function scrub(e){ 
+   // console.log(e.offsetX,progress.offsetWidth,video.duration);
+    const scrubTime=(e.offsetX / progress.offsetWidth) * video.duration;
+    video.currentTime=scrubTime;
 }
 
 /* Hook up the event listners */
 video.addEventListener('click', tooglePlay);
 video.addEventListener('play', updateButton);
 video.addEventListener('pause', updateButton);
+video.addEventListener('timeupdate', handleProgress);
 toggle.addEventListener('click', tooglePlay);
+skipButtons.forEach(button => button.addEventListener('click', skip));
+ranges.forEach(range => range.addEventListener('change',handleRangeUpdate));
+ranges.forEach(range => range.addEventListener('mausemove',handleRangeUpdate));
+
+let mausedown=false;
+progress.addEventListener('click',scrub);
+progress.addEventListener('mousedown', () => mausedown = true);
+progress.addEventListener('mouseup', () => mausedown = false);
+progress.addEventListener('mousemove',(e) => mausedown && scrub(e));
+
+
