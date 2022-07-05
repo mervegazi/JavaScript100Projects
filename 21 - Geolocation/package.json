@@ -10,9 +10,5 @@
   "license": "ISC",
   "devDependencies": {
     "browser-sync": "^2.12.5 <2.23.2"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mervegazi/JavaScript100Projects/tree/main/21%20-%20Geolocation.git"
   }
 }
