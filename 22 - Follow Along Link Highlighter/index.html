@@ -32,7 +32,7 @@
     document.body.append(highlight);
 
     function highlightLink() {
-      const linkCoords = this.getBoundingClientRect();
+      const linkCoords = this.getBoundingClientRect(); //the method returns the size of an element and its position relative to the viewport. The scrolling that has been done is taken into account.
       console.log(linkCoords.top,linkCoords.left,scrollX,scrollY);
       const coords = {
         width: linkCoords.width,
