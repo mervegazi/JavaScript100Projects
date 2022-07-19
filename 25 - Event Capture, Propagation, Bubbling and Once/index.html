@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Understanding JavaScript's Capture</title>
+</head>
+<body class="bod">
+
+  <div class="one">
+    <div class="two">
+      <div class="three">
+      </div>
+    </div>
+  </div>
+
+<style>
+  html {
+    box-sizing: border-box;
+  }
+  
+  *, *:before, *:after { 
+    box-sizing: inherit; 
+  }
+
+  div {
+    width: 100%;
+    padding: 100px;
+  }
+
+  .one {
+    background: thistle;
+  }
+
+  .two {
+    background: mistyrose;
+  }
+
+  .three {
+    background: coral;
+  }
+</style>
+<script>
+
+  const divs = document.querySelectorAll('div');
+
+  function logText(e){
+    console.log(this.classList.value); //While classList is running, it covers the entire tree structure of the dom object from top to bottom. 
+                                       //e.g if the class name of the first div is apple and the second one is pear; When we click on the second div, our list becomes as follows: apple, pear
+    e.stopPropagation();               //It stops bubbling in the DOM tree structure so it gives the class name of the clicked tag.
+  }
+
+  divs.forEach(div => div.addEventListener('click', logText, {capture: false, once:true})); // capture: Captures the DOM tree structure from top to bottom. once: As long as the click result does not change, it writes a single value and does not show the number of clicks on the same value.
+</script> 
+</body>
+</html>
