@@ -119,7 +119,7 @@ h1{
     width: var(--other-width);
 }
 
-split.right,
+.split.right,
 .split.left,
 .split.right::before,
 .split.left::before {
