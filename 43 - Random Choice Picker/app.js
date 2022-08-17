@@ -31,16 +31,41 @@ function createTags(input){
 
 }
 
-function randomSelect(){
-
-    const times = 30;
-    const interval = setInterval(() =>{
-        highlightTag(randomTag);
-
-        setTimeout(() => {
-            unHighlightTag(randomTag);
-            
-        }, 100);
+function randomSelect() {
+  
+    const times = 30
+  
+    const interval = setInterval(() => { //Her 100 milisaniyede bir, classname'i tag olan span a renk ver
+      const randomTag = pickRandomTag() //random seçtiğimiz spanı alıyoruz
+  
+      highlightTag(randomTag)           //random seçtiğimiz spana renk veriyoruz css ile
+  
+      setTimeout(() => {                //100 milisaniye sonra span verdiğimiz rengi kaldır eski rengine gelsin
+        unHighLight(randomTag)          //yani bu span 100 milisaniye kırmızı renk alıp eski haline gelecek. 
+      }, 100)
     }, 100)
-   
-}
+  
+    setTimeout(() => {                  //30*100(3000 milisaniye: 3saniye) 3 saniye sonra bu sürekli random span seçip renklendirme işlemini durdur.
+      clearInterval(interval)
+  
+      setTimeout(() => {                //durdurma işlemi sonrası kırmızı renkli span olmayacağı için tekrardan tek bir seferliğine rastgele boyanacak bir span seçtik ve bu renk kalıcı olacak.
+        const randomTag = pickRandomTag()
+  
+        highlightTag(randomTag)
+      }, 100)
+    }, times * 100)
+  }
+  
+  function pickRandomTag() {
+    const tags = document.querySelectorAll('.tag')
+  
+    return tags[Math.floor(Math.random() * tags.length)]
+  }
+  
+  function highlightTag(tag) {
+    tag.classList.add('highlight')
+  }
+  
+  function unHighLight(tag) {
+    tag.classList.remove('highlight')
+  }
